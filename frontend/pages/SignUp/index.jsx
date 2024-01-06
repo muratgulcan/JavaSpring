@@ -10,6 +10,7 @@ export function SignUp() {
   const [apiProgress, setApiProgress] = useState(false);
   const [successMessage, setSuccessMesage] = useState();
   const [errors, setErrors] = useState({});
+  const [generalError, setGeneralError] = useState();
 
   useEffect(() => {
     setErrors({});
@@ -20,6 +21,7 @@ export function SignUp() {
     event.preventDefault();
     setSuccessMesage();
     setApiProgress(true);
+    setGeneralError();
     try {
       const response = await signUp({
         // key ve assign ettigimiz value'nin degisken isimleri aynı ise tekrar etmemize gerek yok yani username: username yapmamıza gerek yok sadece username yazmak yeterli olacaktır.
@@ -31,6 +33,8 @@ export function SignUp() {
     } catch (error) {
       if (error.response?.data && error.response.data.status === 400) {
         setErrors(error.response.data.validationErrors);
+      } else {
+        setGeneralError("Unexpected error occured. Please try again.");
       }
     } finally {
       setApiProgress(false);
@@ -51,8 +55,14 @@ export function SignUp() {
           </div>
           <div className="card-body">
             {successMessage && (
-              <div class="alert alert-success" role="alert">
+              <div className="alert alert-success" role="alert">
                 {successMessage}
+              </div>
+            )}
+
+            {generalError && (
+              <div className="alert alert-danger" role="alert">
+                {generalError}
               </div>
             )}
 
