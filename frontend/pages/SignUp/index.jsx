@@ -31,6 +31,15 @@ export function SignUp() {
     });
   }, [email]);
 
+  useEffect(() => {
+    setErrors(function (lastErrors) {
+      return {
+        ...lastErrors,
+        password: undefined,
+      };
+    });
+  }, [password]);
+
   const onSubmit = async (event) => {
     // bir HTML formu gönderildiğinde sayfanın yeniden yüklenmesini engellemek veya bir bağlantı tıklandığında sayfanın başka bir sayfaya gitmesini engellemek için event.preventDefault() kullanılır. Bu, JavaScript tarafından ele alınan olayın varsayılan tarayıcı davranışını iptal eder.
     event.preventDefault();
@@ -85,25 +94,23 @@ export function SignUp() {
               label="username"
               error={errors.username}
               onChange={(event) => setUsername(event.target.value)}
+              type="text"
             />
             <Input
               id="email"
               label="email"
               error={errors.email}
               onChange={(event) => setEmail(event.target.value)}
+              type="email"
             />
 
-            <div className="mb-3">
-              <label htmlFor="password" className="form-label">
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                className="form-control"
-                onChange={(event) => setPassword(event.target.value)}
-              />
-            </div>
+            <Input
+              id="password"
+              label="password"
+              error={errors.password}
+              onChange={(event) => setPassword(event.target.value)}
+              type="password"
+            />
 
             <div className="mb-3">
               <label htmlFor="repassword" className="form-label">

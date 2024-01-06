@@ -47,7 +47,8 @@ public class UserController {
         // bir alt satırdaki kodun işlevi ile yorum satırına alınan kod bloğu aynı
         // görevi yapıyor
         var validationErrors = exception.getBindingResult().getFieldErrors().stream()
-                .collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage));
+                .collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage,
+                        (existing, replacing) -> existing));
         apiError.setValidationErrors(validationErrors);
         return ResponseEntity.badRequest().body(apiError);
     }
