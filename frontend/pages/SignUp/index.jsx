@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { signUp } from "./api";
 
 export function SignUp() {
   const [username, setUsername] = useState();
@@ -9,22 +10,28 @@ export function SignUp() {
   const [apiProgress, setApiProgress] = useState(false);
   const [successMessage, setSuccessMesage] = useState();
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     // bir HTML formu gönderildiğinde sayfanın yeniden yüklenmesini engellemek veya bir bağlantı tıklandığında sayfanın başka bir sayfaya gitmesini engellemek için event.preventDefault() kullanılır. Bu, JavaScript tarafından ele alınan olayın varsayılan tarayıcı davranışını iptal eder.
     event.preventDefault();
     setSuccessMesage();
     setApiProgress(true);
-    axios
-      .post("/api/v1/users", {
+    try {
+      const response = await signUp({
         // key ve assign ettigimiz value'nin degisken isimleri aynı ise tekrar etmemize gerek yok yani username: username yapmamıza gerek yok sadece username yazmak yeterli olacaktır.
         username,
         email,
         password,
-      })
-      .then((response) => {
-        setSuccessMesage(response.data.message);
-      })
-      .finally(() => setApiProgress(false));
+      });
+      setSuccessMesage(response.data.message);
+    } catch (error) {
+    } finally {
+      setApiProgress(false);
+    }
+
+    // .then((response) => {
+    //   setSuccessMesage(response.data.message);
+    // })
+    // .finally(() => setApiProgress(false));
   };
 
   return (
