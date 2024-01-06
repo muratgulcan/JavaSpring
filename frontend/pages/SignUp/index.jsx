@@ -1,4 +1,5 @@
 import { useState } from "react"
+import axios from 'axios'
 
 export function SignUp(){
 
@@ -7,8 +8,15 @@ export function SignUp(){
     const [password,setPassword] =  useState()
     const [rePassword,setRePassword] =  useState()
 
-    const onChangeUsername = (event) => {
 
+    const onSubmit = (event) => {
+        axios.post('http://localhost:8080/api/v1/users',
+        {
+            // key ve assign ettigimiz value'nin degisken isimleri aynı ise tekrar etmemize gerek yok yani username: username yapmamıza gerek yok sadece username yazmak yeterli olacaktır.
+            username,
+            email,
+            password,
+        })
     }
 
     return <>
@@ -33,6 +41,11 @@ export function SignUp(){
             <input type="password" id="repassword" onChange={(event) => setRePassword(event.target.value)}/>
         </div>
 
-        <button disabled={!password || password !== rePassword}>Sign Up</button>
+        <button
+         disabled={!password || password !== rePassword}
+         onClick={onSubmit}
+          >
+            Sign Up
+         </button>
     </>
 }
