@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { signUp } from "./api";
 
@@ -9,6 +9,11 @@ export function SignUp() {
   const [rePassword, setRePassword] = useState();
   const [apiProgress, setApiProgress] = useState(false);
   const [successMessage, setSuccessMesage] = useState();
+  const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    setErrors({});
+  }, [username]);
 
   const onSubmit = async (event) => {
     // bir HTML formu gönderildiğinde sayfanın yeniden yüklenmesini engellemek veya bir bağlantı tıklandığında sayfanın başka bir sayfaya gitmesini engellemek için event.preventDefault() kullanılır. Bu, JavaScript tarafından ele alınan olayın varsayılan tarayıcı davranışını iptal eder.
@@ -24,6 +29,9 @@ export function SignUp() {
       });
       setSuccessMesage(response.data.message);
     } catch (error) {
+      if (error.response?.data && error.response.data.status === 400) {
+        setErrors(error.response.data.validationErrors);
+      }
     } finally {
       setApiProgress(false);
     }
@@ -55,9 +63,12 @@ export function SignUp() {
               <input
                 type="text"
                 id="username"
-                className="form-control"
+                className={
+                  errors.username ? "form-control is-invalid" : "form-control"
+                }
                 onChange={(event) => setUsername(event.target.value)}
               />
+              <div className="invalid-feedback">{errors.username}</div>
             </div>
 
             <div className="mb-3">
