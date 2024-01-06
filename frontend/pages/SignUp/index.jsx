@@ -10,7 +10,9 @@ export function SignUp(){
 
 
     const onSubmit = (event) => {
-        axios.post('http://localhost:8080/api/v1/users',
+        // bir HTML formu gönderildiğinde sayfanın yeniden yüklenmesini engellemek veya bir bağlantı tıklandığında sayfanın başka bir sayfaya gitmesini engellemek için event.preventDefault() kullanılır. Bu, JavaScript tarafından ele alınan olayın varsayılan tarayıcı davranışını iptal eder.
+        event.preventDefault();
+        axios.post('/api/v1/users',
         {
             // key ve assign ettigimiz value'nin degisken isimleri aynı ise tekrar etmemize gerek yok yani username: username yapmamıza gerek yok sadece username yazmak yeterli olacaktır.
             username,
@@ -19,7 +21,8 @@ export function SignUp(){
         })
     }
 
-    return <>
+    return (
+        <form onSubmit={onSubmit}>
         <h1>Sign Up</h1>
         <div>
             <label htmlFor="username">Username</label>
@@ -43,9 +46,9 @@ export function SignUp(){
 
         <button
          disabled={!password || password !== rePassword}
-         onClick={onSubmit}
           >
             Sign Up
          </button>
-    </>
+         </form>
+    )
 }
