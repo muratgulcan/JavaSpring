@@ -6,16 +6,25 @@ export function SignUp() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [rePassword, setRePassword] = useState();
+  const [apiProgress, setApiProgress] = useState(false);
+  const [successMessage, setSuccessMesage] = useState();
 
   const onSubmit = (event) => {
     // bir HTML formu gönderildiğinde sayfanın yeniden yüklenmesini engellemek veya bir bağlantı tıklandığında sayfanın başka bir sayfaya gitmesini engellemek için event.preventDefault() kullanılır. Bu, JavaScript tarafından ele alınan olayın varsayılan tarayıcı davranışını iptal eder.
     event.preventDefault();
-    axios.post("/api/v1/users", {
-      // key ve assign ettigimiz value'nin degisken isimleri aynı ise tekrar etmemize gerek yok yani username: username yapmamıza gerek yok sadece username yazmak yeterli olacaktır.
-      username,
-      email,
-      password,
-    });
+    setSuccessMesage();
+    setApiProgress(true);
+    axios
+      .post("/api/v1/users", {
+        // key ve assign ettigimiz value'nin degisken isimleri aynı ise tekrar etmemize gerek yok yani username: username yapmamıza gerek yok sadece username yazmak yeterli olacaktır.
+        username,
+        email,
+        password,
+      })
+      .then((response) => {
+        setSuccessMesage(response.data.message);
+      })
+      .finally(() => setApiProgress(false));
   };
 
   return (
@@ -26,6 +35,12 @@ export function SignUp() {
             <h1>Sign Up</h1>
           </div>
           <div className="card-body">
+            {successMessage && (
+              <div class="alert alert-success" role="alert">
+                {successMessage}
+              </div>
+            )}
+
             <div className="mb-3">
               <label htmlFor="username" className="form-label">
                 Username
@@ -77,8 +92,14 @@ export function SignUp() {
           <div className="text-center">
             <button
               className="btn btn-primary mb-3"
-              disabled={!password || password !== rePassword}
+              disabled={apiProgress || !password || password !== rePassword}
             >
+              {apiProgress && (
+                <span
+                  className="spinner-border spinner-border-sm"
+                  aria-hidden="true"
+                ></span>
+              )}
               Sign Up
             </button>
           </div>
