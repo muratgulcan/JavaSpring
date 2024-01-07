@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { signUp } from "./api";
 import { Input } from "./components/Input";
@@ -70,6 +70,13 @@ export function SignUp() {
     // .finally(() => setApiProgress(false));
   };
 
+  const passwordRepeatError = useMemo(() => {
+    if (password && password !== rePassword) {
+      return "Password mismatch";
+    }
+    return "";
+  }, [password, rePassword]);
+
   return (
     <div className="container">
       <div className="col-lg-6 offset-lg-3 col-sm-8 offset-sm-2">
@@ -112,17 +119,13 @@ export function SignUp() {
               type="password"
             />
 
-            <div className="mb-3">
-              <label htmlFor="repassword" className="form-label">
-                Password Repeat
-              </label>
-              <input
-                type="password"
-                id="repassword"
-                className="form-control"
-                onChange={(event) => setRePassword(event.target.value)}
-              />
-            </div>
+            <Input
+              id="repassword"
+              label="repassword"
+              error={passwordRepeatError}
+              onChange={(event) => setRePassword(event.target.value)}
+              type="password"
+            />
           </div>
           <div className="text-center">
             <button
