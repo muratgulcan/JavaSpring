@@ -1,5 +1,5 @@
-package com.nyxanite.ws;
+package com.nyxanite.ws.shared;
 
 public record GenericMessage(String message) {
-    
+
 }
