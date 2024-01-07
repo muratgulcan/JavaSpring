@@ -1,5 +1,7 @@
 package com.nyxanite.ws.user;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +47,18 @@ public class UserController {
         var validationErrors = exception.getBindingResult().getFieldErrors().stream()
                 .collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage,
                         (existing, replacing) -> existing));
+        apiError.setValidationErrors(validationErrors);
+        return ResponseEntity.badRequest().body(apiError);
+    }
+
+    @ExceptionHandler(NotUniqueEmailException.class)
+    ResponseEntity<ApiError> handleNotUniqueEmailEx(NotUniqueEmailException exception) {
+        ApiError apiError = new ApiError();
+        apiError.setPath("/api/v1/users");
+        apiError.setMessage("Validation error");
+        apiError.setStatus(400);
+        Map<String, String> validationErrors = new HashMap<>();
+        validationErrors.put("email", "E-mail in use");
         apiError.setValidationErrors(validationErrors);
         return ResponseEntity.badRequest().body(apiError);
     }
