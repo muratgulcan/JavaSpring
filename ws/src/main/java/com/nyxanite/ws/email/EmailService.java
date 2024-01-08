@@ -2,10 +2,16 @@ package com.nyxanite.ws.email;
 
 import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 // import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
+
+import com.nyxanite.ws.configuration.NyxaniteProperties;
+
+import jakarta.annotation.PostConstruct;
 
 // import com.nyxanite.ws.user.User;
 
@@ -14,26 +20,27 @@ public class EmailService {
 
     JavaMailSenderImpl mailSender;
 
-    public EmailService() {
-        this.initialize();
-    }
+    @Autowired
+    NyxaniteProperties nyxaniteProperties;
 
+    @PostConstruct
     public void initialize() {
         this.mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.ethereal.email");
-        mailSender.setPort(587);
-        mailSender.setUsername("ivory.vandervort47@ethereal.email");
-        mailSender.setPassword("Nj4c33WKkxXd3nJtdv");
+        mailSender.setHost(nyxaniteProperties.getEmail().host());
+        mailSender.setPort(nyxaniteProperties.getEmail().port());
+        mailSender.setUsername(nyxaniteProperties.getEmail().username());
+        mailSender.setPassword(nyxaniteProperties.getEmail().password());
         Properties properties = mailSender.getJavaMailProperties();
         properties.put("mail.smtp.starttls.enable", "true");
     }
 
     public void sendActivationEmail(String email, String activation_token) {
+        var activationUrl = nyxaniteProperties.getClient().host() + "/activation/" + activation_token;
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("noreply@my-app.com");
+        message.setFrom(nyxaniteProperties.getEmail().from());
         message.setTo(email);
         message.setSubject("Account Activation");
-        message.setText("http://localhost:5173/activation/" + activation_token);
+        message.setText(activationUrl);
         this.mailSender.send(message);
     }
 
