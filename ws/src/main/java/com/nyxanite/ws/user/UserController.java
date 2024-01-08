@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nyxanite.ws.error.ApiError;
 import com.nyxanite.ws.shared.GenericMessage;
 import com.nyxanite.ws.shared.Messages;
+import com.nyxanite.ws.user.dto.UserCreate;
 import com.nyxanite.ws.user.exception.NotUniqueEmailException;
 
 import jakarta.validation.Valid;
@@ -31,8 +32,8 @@ public class UserController {
     // MessageSource messageSource;
 
     @PostMapping("/api/v1/users")
-    GenericMessage createUser(@Valid @RequestBody User user) {
-        userService.save(user);
+    GenericMessage createUser(@Valid @RequestBody UserCreate user) {
+        userService.save(user.toUser());
         String message = Messages.getMessageForLocale("nyxanite.create.user.success.message",
                 LocaleContextHolder.getLocale());
         return new GenericMessage(message);

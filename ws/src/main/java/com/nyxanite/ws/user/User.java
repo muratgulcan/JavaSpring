@@ -16,6 +16,18 @@ import jakarta.validation.constraints.Size;
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = { "email" }))
 public class User {
 
+    boolean active = false;
+
+    String activation_token;
+
+    public String getActivation_token() {
+        return activation_token;
+    }
+
+    public void setActivation_token(String activation_token) {
+        this.activation_token = activation_token;
+    }
+
     @Id
     @GeneratedValue
     long id;
@@ -32,6 +44,14 @@ public class User {
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message = "{nyxanite.constraints.password.pattern}")
     @Size(min = 6, max = 255)
     String password;
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
     public long getId() {
         return id;

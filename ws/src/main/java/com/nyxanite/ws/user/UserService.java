@@ -1,5 +1,7 @@
 package com.nyxanite.ws.user;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,6 +20,7 @@ public class UserService {
     public void save(User user) {
         try {
             String encoderPassword = passwordEncoder.encode(user.getPassword());
+            user.setActivation_token(UUID.randomUUID().toString());
             user.setPassword(encoderPassword);
             userRepository.save(user);
         } catch (DataIntegrityViolationException ex) {
