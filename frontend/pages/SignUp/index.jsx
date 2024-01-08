@@ -57,8 +57,12 @@ export function SignUp() {
       });
       setSuccessMesage(response.data.message);
     } catch (error) {
-      if (error.response?.data && error.response.data.status === 400) {
-        setErrors(error.response.data.validationErrors);
+      if (error.response?.data) {
+        if (error.response.data.status === 400) {
+          setErrors(error.response.data.validationErrors);
+        } else {
+          setGeneralError(error.response.data.message);
+        }
       } else {
         setGeneralError(t("genericError"));
       }

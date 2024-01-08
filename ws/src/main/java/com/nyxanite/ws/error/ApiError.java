@@ -1,15 +1,20 @@
 package com.nyxanite.ws.error;
 
 import java.util.Date;
-import java.util.HashMap;
+// import java.util.HashMap;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+// Spring, bu ApiError objesini JSON'a çevirirken, NULL olmayan field'ları sadece JSON'a ekle diyoruz bununla birlikte
+@JsonInclude(value = Include.NON_NULL)
 public class ApiError {
     private int status;
     private String message;
     private String path;
     private long timestamp = new Date().getTime();
-    private Map<String, String> validationErrors = new HashMap<>();
+    private Map<String, String> validationErrors = null;
 
     public Map<String, String> getValidationErrors() {
         return validationErrors;

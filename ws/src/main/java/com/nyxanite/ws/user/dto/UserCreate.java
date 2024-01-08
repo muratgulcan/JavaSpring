@@ -5,7 +5,6 @@ import com.nyxanite.ws.user.validation.UniqueEmail;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record UserCreate(
@@ -13,7 +12,7 @@ public record UserCreate(
 
         @NotBlank @Email @UniqueEmail String email,
 
-        @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message = "{nyxanite.constraints.password.pattern}") @Size(min = 6, max = 255) String password) {
+        @Size(min = 6, max = 255) String password) {
     public User toUser() {
         User user = new User();
         user.setEmail(email);
