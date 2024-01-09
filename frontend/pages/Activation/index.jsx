@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { activateUser } from "./api";
+import { Alert } from "../../src/shared/components/Alert";
 
 export function Activation() {
   const { token } = useParams();
@@ -22,24 +23,18 @@ export function Activation() {
       }
     }
 
-    activate();
+    //activate();
   }, []);
   return (
     <>
       {apiProgress && (
-        <span className="spinner-border" aria-hidden="true"></span>
+        <Alert styleType="secondary" center>
+          <span className="spinner-border" aria-hidden="true"></span>
+        </Alert>
       )}
-      {successMessage && (
-        <div className="alert alert-success" role="alert">
-          {successMessage}
-        </div>
-      )}
+      {successMessage && <Alert>{successMessage}</Alert>}
 
-      {errorMessage && (
-        <div className="alert alert-danger" role="alert">
-          {errorMessage}
-        </div>
-      )}
+      {errorMessage && <Alert styleType="danger">{errorMessage}</Alert>}
     </>
   );
 }

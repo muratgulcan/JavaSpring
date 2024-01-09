@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { signUp } from "./api";
 import { Input } from "./components/Input";
 import { useTranslation } from "react-i18next";
+import { Alert } from "../../src/shared/components/Alert";
+import { Spinner } from "../../src/shared/components/Spinner";
 
 export function SignUp() {
   const [username, setUsername] = useState();
@@ -90,17 +92,9 @@ export function SignUp() {
             <h1>{t("signUp")}</h1>
           </div>
           <div className="card-body">
-            {successMessage && (
-              <div className="alert alert-success" role="alert">
-                {successMessage}
-              </div>
-            )}
+            {successMessage && <Alert>{successMessage}</Alert>}
 
-            {generalError && (
-              <div className="alert alert-danger" role="alert">
-                {generalError}
-              </div>
-            )}
+            {generalError && <Alert styleType="danger">{generalError}</Alert>}
             <Input
               id="username"
               label={t("username")}
@@ -137,12 +131,7 @@ export function SignUp() {
               className="btn btn-primary mb-3"
               disabled={apiProgress || !password || password !== rePassword}
             >
-              {apiProgress && (
-                <span
-                  className="spinner-border spinner-border-sm"
-                  aria-hidden="true"
-                ></span>
-              )}
+              {apiProgress && <Spinner sm />}
               {t("signUp")}
             </button>
           </div>
