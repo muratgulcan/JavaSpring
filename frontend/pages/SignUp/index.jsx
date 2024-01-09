@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from "react";
 import { signUp } from "./api";
 import { Input } from "./components/Input";
 import { useTranslation } from "react-i18next";
-import { LanguageSelector } from "../../src/shared/components/LanguageSelector";
 
 export function SignUp() {
   const [username, setUsername] = useState();
@@ -85,7 +84,7 @@ export function SignUp() {
 
   return (
     <div className="container">
-      <div className="col-lg-6 offset-lg-3 col-sm-8 offset-sm-2">
+      <div className="col-lg-6 offset-lg-3 col-sm-8 offset-sm-2 mt-3">
         <form className="card" onSubmit={onSubmit}>
           <div className="text-center card-header">
             <h1>{t("signUp")}</h1>
@@ -148,7 +147,6 @@ export function SignUp() {
             </button>
           </div>
         </form>
-        <LanguageSelector />
       </div>
     </div>
   );
