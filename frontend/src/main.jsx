@@ -1,12 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
-import { SignUp } from "../pages/SignUp/index.jsx";
 import "../styles.css";
 import "./locales";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import router from "./locales/router/index.js";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <SignUp />
+    <RouterProvider router={router} />
   </React.StrictMode>
 );

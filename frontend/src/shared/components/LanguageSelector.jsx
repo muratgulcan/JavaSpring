@@ -17,7 +17,7 @@ export function LanguageSelector() {
         style={imageStyle}
         role="button"
         src="https://flagcdn.com/w40/tr.png"
-        srcset="https://flagcdn.com/w80/tr.png 2x"
+        srcSet="https://flagcdn.com/w80/tr.png 2x"
         width="40"
         alt="Turkish"
         onClick={() => onSelectLanguage("tr")}
@@ -27,7 +27,7 @@ export function LanguageSelector() {
         style={imageStyle}
         role="button"
         src="https://flagcdn.com/w40/gb.png"
-        srcset="https://flagcdn.com/w80/gb.png 2x"
+        srcSet="https://flagcdn.com/w80/gb.png 2x"
         width="40"
         alt="English"
         onClick={() => onSelectLanguage("en")}
