@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.nyxanite.ws.email.EmailService;
 import com.nyxanite.ws.user.exception.ActivationNotificationException;
+import com.nyxanite.ws.user.exception.InvalidTokenException;
 import com.nyxanite.ws.user.exception.NotUniqueEmailException;
 
 import jakarta.transaction.Transactional;
@@ -33,15 +34,25 @@ public class UserService {
     public void save(User user) {
         try {
             String encoderPassword = passwordEncoder.encode(user.getPassword());
-            user.setActivation_token(UUID.randomUUID().toString());
+            user.setActivationToken(UUID.randomUUID().toString());
             user.setPassword(encoderPassword);
             userRepository.saveAndFlush(user);
-            emailService.sendActivationEmail(user.getEmail(), user.getActivation_token());
+            emailService.sendActivationEmail(user.getEmail(), user.getActivationToken());
         } catch (DataIntegrityViolationException ex) {
             throw new NotUniqueEmailException();
         } catch (MailException ex) {
             throw new ActivationNotificationException();
         }
+    }
+
+    public void activateUser(String token) {
+        User inDB = userRepository.findByActivationToken(token);
+        if (inDB == null) {
+            throw new InvalidTokenException();
+        }
+        inDB.setActive(true);
+        inDB.setActivationToken(null);
+        userRepository.save(inDB);
     }
 
 }

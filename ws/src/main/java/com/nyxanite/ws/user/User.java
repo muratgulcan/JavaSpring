@@ -18,7 +18,7 @@ public class User {
 
     boolean active = false;
 
-    String activation_token;
+    String activationToken;
 
     @Id
     @GeneratedValue
@@ -37,12 +37,12 @@ public class User {
     @Size(min = 6, max = 255)
     String password;
 
-    public String getActivation_token() {
-        return activation_token;
+    public String getActivationToken() {
+        return activationToken;
     }
 
-    public void setActivation_token(String activation_token) {
-        this.activation_token = activation_token;
+    public void setActivationToken(String activationToken) {
+        this.activationToken = activationToken;
     }
 
     public boolean isActive() {
