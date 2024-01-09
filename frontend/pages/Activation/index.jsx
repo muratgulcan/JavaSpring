@@ -16,8 +16,8 @@ export function Activation() {
         const response = await activateUser(token);
         setSuccessMesage(response.data.message);
       } catch (error) {
-        setErrorMessage(error.response.data.message);
         console.log(error);
+        setErrorMessage(error.response.data.message);
       } finally {
         setApiProgress(false);
       }
