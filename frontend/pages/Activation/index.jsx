@@ -23,7 +23,7 @@ export function Activation() {
       }
     }
 
-    //activate();
+    activate();
   }, []);
   return (
     <>
