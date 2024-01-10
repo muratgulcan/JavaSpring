@@ -1,5 +1,6 @@
 package com.nyxanite.ws.user;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import com.nyxanite.ws.user.exception.InvalidTokenException;
 import com.nyxanite.ws.user.exception.NotUniqueEmailException;
 
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 public class UserController {
@@ -49,6 +51,11 @@ public class UserController {
         String message = Messages.getMessageForLocale("nyxanite.activate.user.success.message",
                 LocaleContextHolder.getLocale());
         return new GenericMessage(message);
+    }
+
+    @GetMapping("/api/v1/users")
+    List<User> getUsers() {
+        return userService.getUsers();
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
