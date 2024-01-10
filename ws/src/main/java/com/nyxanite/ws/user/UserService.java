@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.nyxanite.ws.email.EmailService;
-import com.nyxanite.ws.user.dto.UserProjection;
 import com.nyxanite.ws.user.exception.ActivationNotificationException;
 import com.nyxanite.ws.user.exception.InvalidTokenException;
 import com.nyxanite.ws.user.exception.NotUniqueEmailException;
@@ -57,7 +56,7 @@ public class UserService {
         userRepository.save(inDB);
     }
 
-    public Page<UserProjection> getUsers(Pageable pageable) {
-        return userRepository.getAllUserRecords(pageable);
+    public Page<User> getUsers(Pageable pageable) {
+        return userRepository.findAll(pageable);
     }
 }
