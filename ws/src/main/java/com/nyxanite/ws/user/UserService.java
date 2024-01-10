@@ -59,4 +59,8 @@ public class UserService {
     public Page<User> getUsers(Pageable pageable) {
         return userRepository.findAll(pageable);
     }
+
+    public User getUser(long id) {
+        return userRepository.getReferenceById(id);
+    }
 }
