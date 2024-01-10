@@ -20,6 +20,7 @@ import com.nyxanite.ws.error.ApiError;
 import com.nyxanite.ws.shared.GenericMessage;
 import com.nyxanite.ws.shared.Messages;
 import com.nyxanite.ws.user.dto.UserCreate;
+import com.nyxanite.ws.user.dto.UserProjection;
 import com.nyxanite.ws.user.exception.ActivationNotificationException;
 import com.nyxanite.ws.user.exception.InvalidTokenException;
 import com.nyxanite.ws.user.exception.NotUniqueEmailException;
@@ -55,7 +56,7 @@ public class UserController {
     }
 
     @GetMapping("/api/v1/users")
-    Page<User> getUsers(Pageable pageable) {
+    Page<UserProjection> getUsers(Pageable pageable) {
         return userService.getUsers(pageable);
     }
 

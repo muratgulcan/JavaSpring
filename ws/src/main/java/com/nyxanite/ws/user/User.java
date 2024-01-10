@@ -1,5 +1,6 @@
 package com.nyxanite.ws.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nyxanite.ws.user.validation.UniqueEmail;
 
 import jakarta.persistence.Entity;
@@ -15,9 +16,10 @@ import jakarta.validation.constraints.Size;
 @Entity
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = { "email" }))
 public class User {
-
+    @JsonIgnore
     boolean active = false;
 
+    @JsonIgnore
     String activationToken;
 
     @Id
@@ -33,9 +35,20 @@ public class User {
     @UniqueEmail
     String email;
 
+    String image;
+
+    @JsonIgnore
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message = "{nyxanite.constraints.password.pattern}")
     @Size(min = 6, max = 255)
     String password;
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     public String getActivationToken() {
         return activationToken;
