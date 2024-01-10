@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import com.nyxanite.ws.email.EmailService;
 import com.nyxanite.ws.user.exception.ActivationNotificationException;
 import com.nyxanite.ws.user.exception.InvalidTokenException;
+import com.nyxanite.ws.user.exception.NotFoundException;
 import com.nyxanite.ws.user.exception.NotUniqueEmailException;
 
 import jakarta.transaction.Transactional;
@@ -61,6 +62,7 @@ public class UserService {
     }
 
     public User getUser(long id) {
-        return userRepository.getReferenceById(id);
+        return userRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
     }
+
 }

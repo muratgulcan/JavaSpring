@@ -23,9 +23,9 @@ import com.nyxanite.ws.user.dto.UserCreate;
 import com.nyxanite.ws.user.dto.UserDTO;
 import com.nyxanite.ws.user.exception.ActivationNotificationException;
 import com.nyxanite.ws.user.exception.InvalidTokenException;
+import com.nyxanite.ws.user.exception.NotFoundException;
 import com.nyxanite.ws.user.exception.NotUniqueEmailException;
 
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -116,12 +116,12 @@ public class UserController {
         return ResponseEntity.status(400).body(apiError);
     }
 
-    @ExceptionHandler(EntityNotFoundException.class)
-    ResponseEntity<ApiError> handleEntityNotFoundException(EntityNotFoundException exception,
+    @ExceptionHandler(NotFoundException.class)
+    ResponseEntity<ApiError> handleNotFoundException(NotFoundException exception,
             HttpServletRequest request) {
         ApiError apiError = new ApiError();
         apiError.setPath(request.getRequestURI());
-        apiError.setMessage("Not Found");
+        apiError.setMessage(exception.getMessage());
         apiError.setStatus(404);
         return ResponseEntity.status(404).body(apiError);
     }
