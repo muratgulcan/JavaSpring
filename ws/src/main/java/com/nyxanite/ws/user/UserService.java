@@ -2,8 +2,8 @@ package com.nyxanite.ws.user;
 
 // import java.util.Properties;
 import java.util.UUID;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.mail.MailException;
@@ -56,7 +56,7 @@ public class UserService {
         userRepository.save(inDB);
     }
 
-    public List<User> getUsers() {
-        return userRepository.findAll();
+    public Page<User> getUsers(Pageable pageable) {
+        return userRepository.findAll(pageable);
     }
 }

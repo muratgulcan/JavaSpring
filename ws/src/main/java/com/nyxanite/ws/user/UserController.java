@@ -1,8 +1,9 @@
 package com.nyxanite.ws.user;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.ResponseEntity;
@@ -54,8 +55,8 @@ public class UserController {
     }
 
     @GetMapping("/api/v1/users")
-    List<User> getUsers() {
-        return userService.getUsers();
+    Page<User> getUsers(Pageable pageable) {
+        return userService.getUsers(pageable);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
