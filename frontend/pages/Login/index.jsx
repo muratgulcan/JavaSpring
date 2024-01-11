@@ -2,9 +2,9 @@ import { useEffect, useMemo, useState } from "react";
 
 import { useTranslation } from "react-i18next";
 import { Alert } from "../../src/shared/components/Alert";
-import { Spinner } from "../../src/shared/components/Spinner";
 import { Input } from "../../src/shared/components/Input";
 import { Button } from "../../src/shared/components/Button";
+import { signIn } from "./api";
 
 export function Login() {
   const [email, setEmail] = useState();
@@ -39,32 +39,25 @@ export function Login() {
     setSuccessMesage();
     setApiProgress(true);
     setGeneralError();
-    // try {
-    //   const response = await signUp({
-    //     // key ve assign ettigimiz value'nin degisken isimleri aynı ise tekrar etmemize gerek yok yani username: username yapmamıza gerek yok sadece username yazmak yeterli olacaktır.
-    //     username,
-    //     email,
-    //     password,
-    //   });
-    //   setSuccessMesage(response.data.message);
-    // } catch (error) {
-    //   if (error.response?.data) {
-    //     if (error.response.data.status === 400) {
-    //       setErrors(error.response.data.validationErrors);
-    //     } else {
-    //       setGeneralError(error.response.data.message);
-    //     }
-    //   } else {
-    //     setGeneralError(t("genericError"));
-    //   }
-    // } finally {
-    //   setApiProgress(false);
-    // }
-
-    // .then((response) => {
-    //   setSuccessMesage(response.data.message);
-    // })
-    // .finally(() => setApiProgress(false));
+    try {
+      const response = await signIn({
+        // key ve assign ettigimiz value'nin degisken isimleri aynı ise tekrar etmemize gerek yok yani username: username yapmamıza gerek yok sadece username yazmak yeterli olacaktır.
+        email,
+        password,
+      });
+    } catch (error) {
+      if (error.response?.data) {
+        if (error.response.data.status === 400) {
+          setErrors(error.response.data.validationErrors);
+        } else {
+          setGeneralError(error.response.data.message);
+        }
+      } else {
+        setGeneralError(t("genericError"));
+      }
+    } finally {
+      setApiProgress(false);
+    }
   };
 
   return (
