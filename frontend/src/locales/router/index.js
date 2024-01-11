@@ -4,6 +4,7 @@ import { SignUp } from "../../../pages/SignUp";
 import { UserPage } from "../../../pages/UserPage";
 import App from "../../App";
 import { Activation } from "../../../pages/Activation";
+import { Login } from "../../../pages/Login";
 
 export default createBrowserRouter([
   {
@@ -30,6 +31,10 @@ export default createBrowserRouter([
       {
         path: "/user/:id",
         Component: UserPage,
+      },
+      {
+        path: "/signin",
+        Component: Login,
       },
     ],
   },

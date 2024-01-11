@@ -1,30 +1,19 @@
 import { useEffect, useMemo, useState } from "react";
-import { signUp } from "./api";
-import { Input } from "../../src/shared/components/Input";
+
 import { useTranslation } from "react-i18next";
 import { Alert } from "../../src/shared/components/Alert";
 import { Spinner } from "../../src/shared/components/Spinner";
+import { Input } from "../../src/shared/components/Input";
 import { Button } from "../../src/shared/components/Button";
 
-export function SignUp() {
-  const [username, setUsername] = useState();
+export function Login() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const [rePassword, setRePassword] = useState();
   const [apiProgress, setApiProgress] = useState(false);
   const [successMessage, setSuccessMesage] = useState();
   const [errors, setErrors] = useState({});
   const [generalError, setGeneralError] = useState();
   const { t } = useTranslation();
-
-  useEffect(() => {
-    setErrors(function (lastErrors) {
-      return {
-        ...lastErrors,
-        username: undefined,
-      };
-    });
-  }, [username]);
 
   useEffect(() => {
     setErrors(function (lastErrors) {
@@ -50,27 +39,27 @@ export function SignUp() {
     setSuccessMesage();
     setApiProgress(true);
     setGeneralError();
-    try {
-      const response = await signUp({
-        // key ve assign ettigimiz value'nin degisken isimleri aynı ise tekrar etmemize gerek yok yani username: username yapmamıza gerek yok sadece username yazmak yeterli olacaktır.
-        username,
-        email,
-        password,
-      });
-      setSuccessMesage(response.data.message);
-    } catch (error) {
-      if (error.response?.data) {
-        if (error.response.data.status === 400) {
-          setErrors(error.response.data.validationErrors);
-        } else {
-          setGeneralError(error.response.data.message);
-        }
-      } else {
-        setGeneralError(t("genericError"));
-      }
-    } finally {
-      setApiProgress(false);
-    }
+    // try {
+    //   const response = await signUp({
+    //     // key ve assign ettigimiz value'nin degisken isimleri aynı ise tekrar etmemize gerek yok yani username: username yapmamıza gerek yok sadece username yazmak yeterli olacaktır.
+    //     username,
+    //     email,
+    //     password,
+    //   });
+    //   setSuccessMesage(response.data.message);
+    // } catch (error) {
+    //   if (error.response?.data) {
+    //     if (error.response.data.status === 400) {
+    //       setErrors(error.response.data.validationErrors);
+    //     } else {
+    //       setGeneralError(error.response.data.message);
+    //     }
+    //   } else {
+    //     setGeneralError(t("genericError"));
+    //   }
+    // } finally {
+    //   setApiProgress(false);
+    // }
 
     // .then((response) => {
     //   setSuccessMesage(response.data.message);
@@ -78,31 +67,18 @@ export function SignUp() {
     // .finally(() => setApiProgress(false));
   };
 
-  const passwordRepeatError = useMemo(() => {
-    if (password && password !== rePassword) {
-      return t("passwordMismatch");
-    }
-    return "";
-  }, [password, rePassword]);
-
   return (
     <div className="container">
       <div className="col-lg-6 offset-lg-3 col-sm-8 offset-sm-2 mt-3">
         <form className="card" onSubmit={onSubmit}>
           <div className="text-center card-header">
-            <h1>{t("signUp")}</h1>
+            <h1>{t("signIn")}</h1>
           </div>
           <div className="card-body">
             {successMessage && <Alert>{successMessage}</Alert>}
 
             {generalError && <Alert styleType="danger">{generalError}</Alert>}
-            <Input
-              id="username"
-              label={t("username")}
-              error={errors.username}
-              onChange={(event) => setUsername(event.target.value)}
-              type="text"
-            />
+
             <Input
               id="email"
               label={t("email")}
@@ -118,20 +94,9 @@ export function SignUp() {
               onChange={(event) => setPassword(event.target.value)}
               type="password"
             />
-
-            <Input
-              id="repassword"
-              label={t("rePassword")}
-              error={passwordRepeatError}
-              onChange={(event) => setRePassword(event.target.value)}
-              type="password"
-            />
           </div>
           <div className="text-center">
-            <Button
-              disabled={apiProgress || !password || password !== rePassword}
-              apiProgress={apiProgress}
-            >
+            <Button disabled={!email || !password} apiProgress={apiProgress}>
               {t("signIn")}
             </Button>
           </div>
