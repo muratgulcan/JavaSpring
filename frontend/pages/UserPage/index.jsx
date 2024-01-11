@@ -3,6 +3,7 @@ import { Alert } from "../../src/shared/components/Alert";
 import { Spinner } from "../../src/shared/components/Spinner";
 import { getUser } from "./api";
 import { useRouteParamApiRequest } from "../../src/shared/hooks/useRouteParamApiRequest";
+import ProfileCard from "./components/ProfileCard";
 
 export function UserPage() {
   const {
@@ -17,7 +18,7 @@ export function UserPage() {
           <Spinner />
         </Alert>
       )}
-      {user && <h1>{user.username}</h1>}
+      {user && <ProfileCard user={user} />}
 
       {error && <Alert styleType="danger">{error}</Alert>}
     </>
