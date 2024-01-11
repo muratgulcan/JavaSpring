@@ -1,5 +1,8 @@
 package com.nyxanite.ws.auth.dto;
 
-public record Credentials(String email, String password) {
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
+public record Credentials(@Email String email, @NotBlank String password) {
 
 }
