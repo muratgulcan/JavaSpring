@@ -50,7 +50,7 @@ export function Login() {
         email,
         password,
       });
-      dispatch({ type: "login-success", data: response.data.user });
+      dispatch({ type: "login-success", data: response.data });
       navigate("/");
     } catch (error) {
       if (error.response?.data) {
