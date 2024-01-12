@@ -9,6 +9,7 @@ import org.springframework.mail.MailException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.nyxanite.ws.configuration.CurrentUser;
 import com.nyxanite.ws.email.EmailService;
 import com.nyxanite.ws.user.dto.UserUpdate;
 import com.nyxanite.ws.user.exception.ActivationNotificationException;
@@ -54,11 +55,11 @@ public class UserService {
         userRepository.save(inDB);
     }
 
-    public Page<User> getUsers(Pageable pageable, User loggedInUser) {
-        if (loggedInUser == null) {
+    public Page<User> getUsers(Pageable pageable, CurrentUser currentUser) {
+        if (currentUser == null) {
             return userRepository.findAll(pageable);
         }
-        return userRepository.findByIdNot(loggedInUser.getId(), pageable);
+        return userRepository.findByIdNot(currentUser.getId(), pageable);
     }
 
     public User getUser(long id) {

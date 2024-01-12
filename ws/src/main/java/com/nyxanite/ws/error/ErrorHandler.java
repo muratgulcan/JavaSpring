@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.nyxanite.ws.auth.exception.AuthenticationException;
 import com.nyxanite.ws.shared.Messages;
 import com.nyxanite.ws.user.exception.ActivationNotificationException;
+import com.nyxanite.ws.user.exception.AuthorizationException;
 import com.nyxanite.ws.user.exception.InvalidTokenException;
 import com.nyxanite.ws.user.exception.NotFoundException;
 import com.nyxanite.ws.user.exception.NotUniqueEmailException;
@@ -87,5 +88,14 @@ public class ErrorHandler {
         error.setStatus(401);
         error.setMessage(exception.getMessage());
         return ResponseEntity.status(401).body(error);
+    }
+
+    @ExceptionHandler(AuthorizationException.class)
+    ResponseEntity<?> handleAuthorizationException(AuthorizationException exception, HttpServletRequest request) {
+        ApiError error = new ApiError();
+        error.setPath(request.getRequestURI());
+        error.setStatus(403);
+        error.setMessage(exception.getMessage());
+        return ResponseEntity.status(403).body(error);
     }
 }
