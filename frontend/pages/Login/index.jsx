@@ -1,12 +1,15 @@
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 
 import { useTranslation } from "react-i18next";
 import { Alert } from "../../src/shared/components/Alert";
 import { Input } from "../../src/shared/components/Input";
 import { Button } from "../../src/shared/components/Button";
 import { signIn } from "./api";
+import { AuthContext } from "../../src/shared/state/context";
+import { useNavigate } from "react-router-dom";
 
 export function Login({ onLoginSuccess }) {
+  const authState = useContext(AuthContext);
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [apiProgress, setApiProgress] = useState(false);
@@ -14,6 +17,8 @@ export function Login({ onLoginSuccess }) {
   const [errors, setErrors] = useState({});
   const [generalError, setGeneralError] = useState();
   const { t } = useTranslation();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     setErrors(function (lastErrors) {
@@ -45,7 +50,8 @@ export function Login({ onLoginSuccess }) {
         email,
         password,
       });
-      onLoginSuccess(response.data.user);
+      authState.onLoginSuccess(response.data.user);
+      navigate("/");
     } catch (error) {
       if (error.response?.data) {
         if (error.response.data.status === 400) {
