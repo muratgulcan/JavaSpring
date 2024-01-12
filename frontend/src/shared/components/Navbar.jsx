@@ -1,13 +1,14 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { AuthContext } from "../state/context";
+import { useAuthDispatch, useAuthState } from "../state/context";
 
 export function Navbar() {
   const { t } = useTranslation();
-  const authState = useContext(AuthContext);
+  const authState = useAuthState();
+  const dispatch = useAuthDispatch();
   const onClickLogout = () => {
-    authState.onLogoutSuccess();
+    dispatch({ type: "logout-success" });
   };
   return (
     <>

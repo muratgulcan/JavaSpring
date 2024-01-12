@@ -1,15 +1,15 @@
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useTranslation } from "react-i18next";
 import { Alert } from "../../src/shared/components/Alert";
 import { Input } from "../../src/shared/components/Input";
 import { Button } from "../../src/shared/components/Button";
 import { signIn } from "./api";
-import { AuthContext } from "../../src/shared/state/context";
+import { useAuthDispatch } from "../../src/shared/state/context";
 import { useNavigate } from "react-router-dom";
 
-export function Login({ onLoginSuccess }) {
-  const authState = useContext(AuthContext);
+export function Login() {
+  const dispatch = useAuthDispatch();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [apiProgress, setApiProgress] = useState(false);
@@ -50,7 +50,7 @@ export function Login({ onLoginSuccess }) {
         email,
         password,
       });
-      authState.onLoginSuccess(response.data.user);
+      dispatch({ type: "login-success", data: response.data.user });
       navigate("/");
     } catch (error) {
       if (error.response?.data) {
