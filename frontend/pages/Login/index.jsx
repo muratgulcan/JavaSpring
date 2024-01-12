@@ -6,7 +6,7 @@ import { Input } from "../../src/shared/components/Input";
 import { Button } from "../../src/shared/components/Button";
 import { signIn } from "./api";
 
-export function Login() {
+export function Login({ onLoginSuccess }) {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [apiProgress, setApiProgress] = useState(false);
@@ -45,6 +45,7 @@ export function Login() {
         email,
         password,
       });
+      onLoginSuccess(response.data.user);
     } catch (error) {
       if (error.response?.data) {
         if (error.response.data.status === 400) {

@@ -6,5 +6,7 @@
     "rePassword": "Password Repeat",
     "passwordMismatch": "Password mismatch",
     "genericError": "Unexpected error occured. Please try again.",
-    "signIn": "Sign In"
+    "signIn": "Sign In",
+    "myProfile": "My Profile",
+    "logout": "Logout"
 }

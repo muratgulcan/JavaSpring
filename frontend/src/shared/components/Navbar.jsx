@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
-export function Navbar() {
+export function Navbar({ authState }) {
   const { t } = useTranslation();
   return (
     <>
@@ -12,16 +12,34 @@ export function Navbar() {
             Nyxanite
           </Link>
           <ul className="navbar-nav ">
-            <li className="navbar nav-item">
-              <Link className="nav-link" to="/signup">
-                {t("signUp")}
-              </Link>
-            </li>
-            <li className="navbar nav-item">
-              <Link className="nav-link" to="/signin">
-                {t("signIn")}
-              </Link>
-            </li>
+            {authState.id === 0 && (
+              <>
+                <li className="navbar nav-item">
+                  <Link className="nav-link" to="/signup">
+                    {t("signUp")}
+                  </Link>
+                </li>
+                <li className="navbar nav-item">
+                  <Link className="nav-link" to="/signin">
+                    {t("signIn")}
+                  </Link>
+                </li>
+              </>
+            )}
+            {authState.id > 0 && (
+              <>
+                <li className="navbar nav-item">
+                  <Link className="nav-link" to={`/user/${authState.id}`}>
+                    {t("myProfile")}
+                  </Link>
+                </li>
+                <li className="navbar nav-item">
+                  <span className="nav-link" role="button">
+                    {t("logout")}
+                  </span>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </nav>

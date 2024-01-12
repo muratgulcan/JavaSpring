@@ -6,5 +6,7 @@
     "rePassword": "Parola Tekrar",
     "passwordMismatch": "Parolanız eşleşmiyor",
     "genericError": "Beklenmedik bir hata oluştu. Lütfen tekrar deneyin.",
-    "signIn": "Giriş Yap"
+    "signIn": "Giriş Yap",
+    "myProfile": "Profilim",
+    "logout":"Çıkış Yap"
   }
