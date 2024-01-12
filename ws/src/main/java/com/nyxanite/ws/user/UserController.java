@@ -66,7 +66,7 @@ public class UserController {
     };
 
     @PutMapping("/api/v1/users/{id}")
-    UserDTO updateUser(@PathVariable long id, @RequestBody UserUpdate userUpdate,
+    UserDTO updateUser(@PathVariable long id, @Valid @RequestBody UserUpdate userUpdate,
             @RequestHeader(name = "Authorization", required = false) String authorizationHeader) {
         var loggedInUser = tokenService.verifyToken(authorizationHeader);
         if (loggedInUser == null || loggedInUser.getId() != id) {
