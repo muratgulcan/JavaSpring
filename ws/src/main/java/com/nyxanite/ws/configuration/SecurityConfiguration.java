@@ -18,9 +18,11 @@ public class SecurityConfiguration {
         http.authorizeHttpRequests(
                 (authentication) -> authentication.requestMatchers(AntPathRequestMatcher.antMatcher("/secured"))
                         .authenticated().anyRequest().permitAll());
+        http.httpBasic(Customizer.withDefaults());
 
         http.csrf(csrf -> csrf.disable());
-        http.httpBasic(Customizer.withDefaults());
+
+        http.headers(headers -> headers.disable());
         return http.build();
     };
 
