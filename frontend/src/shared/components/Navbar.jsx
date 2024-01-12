@@ -2,6 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { useAuthDispatch, useAuthState } from "../state/context";
+import { ProfileImage } from "./ProfileImage";
 
 export function Navbar() {
   const { t } = useTranslation();
@@ -36,7 +37,8 @@ export function Navbar() {
               <>
                 <li className="navbar nav-item">
                   <Link className="nav-link" to={`/user/${authState.id}`}>
-                    {t("myProfile")}
+                    <ProfileImage width={30} />{" "}
+                    <span className="ms-2">{authState.username}</span>
                   </Link>
                 </li>
                 <li className="navbar nav-item">
