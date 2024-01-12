@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nyxanite.ws.auth.token.TokenService;
 import com.nyxanite.ws.shared.GenericMessage;
 import com.nyxanite.ws.shared.Messages;
 import com.nyxanite.ws.user.dto.UserCreate;
@@ -24,6 +26,9 @@ public class UserController {
     // injection deniliyor.
     @Autowired
     UserService userService;
+
+    @Autowired
+    TokenService tokenService;
 
     // @Autowired
     // MessageSource messageSource;
@@ -45,8 +50,10 @@ public class UserController {
     }
 
     @GetMapping("/api/v1/users")
-    Page<UserDTO> getUsers(Pageable pageable) {
-        return userService.getUsers(pageable).map(UserDTO::new);
+    Page<UserDTO> getUsers(Pageable pageable,
+            @RequestHeader(name = "Authorization", required = false) String authorizationHeader) {
+        var loggedInUser = tokenService.verifyToken(authorizationHeader);
+        return userService.getUsers(pageable, loggedInUser).map(UserDTO::new);
     }
 
     @GetMapping("/api/v1/users/{id}")
