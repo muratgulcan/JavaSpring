@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.nyxanite.ws.email.EmailService;
+import com.nyxanite.ws.user.dto.UserUpdate;
 import com.nyxanite.ws.user.exception.ActivationNotificationException;
 import com.nyxanite.ws.user.exception.InvalidTokenException;
 import com.nyxanite.ws.user.exception.NotFoundException;
@@ -70,6 +71,12 @@ public class UserService {
 
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public User updateUser(long id, UserUpdate userUpdate) {
+        User inDB = getUser(id);
+        inDB.setUsername(userUpdate.username());
+        return userRepository.save(inDB);
     }
 
 }

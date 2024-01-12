@@ -16,8 +16,12 @@ import com.nyxanite.ws.shared.GenericMessage;
 import com.nyxanite.ws.shared.Messages;
 import com.nyxanite.ws.user.dto.UserCreate;
 import com.nyxanite.ws.user.dto.UserDTO;
+import com.nyxanite.ws.user.dto.UserUpdate;
+import com.nyxanite.ws.user.exception.AuthorizationException;
+
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 public class UserController {
@@ -60,5 +64,15 @@ public class UserController {
     UserDTO getUserById(@PathVariable long id) {
         return new UserDTO(userService.getUser(id));
     };
+
+    @PutMapping("/api/v1/users/{id}")
+    UserDTO updateUser(@PathVariable long id, @RequestBody UserUpdate userUpdate,
+            @RequestHeader(name = "Authorization", required = false) String authorizationHeader) {
+        var loggedInUser = tokenService.verifyToken(authorizationHeader);
+        if (loggedInUser == null || loggedInUser.getId() != id) {
+            throw new AuthorizationException();
+        }
+        return new UserDTO(userService.updateUser(id, userUpdate));
+    }
 
 }
