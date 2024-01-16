@@ -1,0 +1,32 @@
+package com.nyxanite.ws.configuration;
+
+import java.io.IOException;
+
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.nyxanite.ws.auth.token.TokenService;
+import com.nyxanite.ws.user.User;
+
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@Component
+public class TokenFilter extends OncePerRequestFilter {
+
+    TokenService tokenService;
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+
+        String authorizationHeader = request.getHeader("Authorization");
+        if (authorizationHeader != null) {
+            User user = tokenService.verifyToken(authorizationHeader);
+        }
+        filterChain.doFilter(request, response);
+    }
+
+}
