@@ -16,9 +16,11 @@ import jakarta.validation.Payload;
 // konfigurarasyondur
 @Retention(RetentionPolicy.RUNTIME)
 public @interface FileType {
-    String message() default "Only jpeg and png files are allowed.";
+    String message() default "Only {types} files are allowed.";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
+
+    String[] types();
 }
