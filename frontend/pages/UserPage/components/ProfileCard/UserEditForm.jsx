@@ -9,7 +9,7 @@ import { useTranslation } from "react-i18next";
 import { updateUser } from "./api";
 import { Alert } from "../../../../src/shared/components/Alert";
 
-export const UserEditForm = ({ setEditMode }) => {
+export const UserEditForm = ({ setEditMode, setTempImage }) => {
   const { t } = useTranslation();
   const authState = useAuthState();
 
@@ -17,6 +17,7 @@ export const UserEditForm = ({ setEditMode }) => {
   const [apiProgress, setApiProgress] = useState(false);
   const [errors, setErrors] = useState({});
   const [generalError, setGeneralError] = useState();
+  const [newImage, setNewImage] = useState();
 
   const dispatch = useAuthDispatch();
 
@@ -28,6 +29,20 @@ export const UserEditForm = ({ setEditMode }) => {
   const onClickCancel = () => {
     setEditMode(false);
     setUsername(authState.username);
+    setNewImage();
+    setTempImage();
+  };
+
+  const onSelectImage = (event) => {
+    if (event.target.files.length < 1) return;
+    const file = event.target.files[0];
+    const fileReader = new FileReader();
+    fileReader.onloadend = () => {
+      const data = fileReader.result;
+      setNewImage(data);
+      setTempImage(data);
+    };
+    fileReader.readAsDataURL(file);
   };
 
   const onClickSave = async () => {
@@ -35,7 +50,10 @@ export const UserEditForm = ({ setEditMode }) => {
     setErrors({});
     setGeneralError();
     try {
-      await updateUser(authState.id, { username: newUsername });
+      await updateUser(authState.id, {
+        username: newUsername,
+        // image: newImage,
+      });
       setEditMode(false);
       dispatch({
         type: "user-update-success",
@@ -64,6 +82,7 @@ export const UserEditForm = ({ setEditMode }) => {
         onChange={onChangeUsername}
         error={errors.username}
       />
+      <Input label="Profile Image" type="file" onChange={onSelectImage} />
       {generalError && <Alert styleType="danger">{generalError}</Alert>}
 
       <Button apiProgress={apiProgress} onClick={onClickSave}>

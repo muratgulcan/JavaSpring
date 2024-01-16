@@ -1,12 +1,13 @@
 import React from "react";
 import defaultProfileImage from "../../../src/assets/profile.png";
 
-export const ProfileImage = ({ width }) => {
+export const ProfileImage = ({ width, tempImage }) => {
   return (
     <img
-      src={defaultProfileImage}
+      src={tempImage || defaultProfileImage}
       width={width}
-      className="img-fluid rounded-circle shadow-sm"
+      height={width}
+      className=" rounded-circle shadow-sm"
     />
   );
 };
