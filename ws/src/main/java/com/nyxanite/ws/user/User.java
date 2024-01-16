@@ -6,6 +6,7 @@ import com.nyxanite.ws.user.validation.UniqueEmail;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Email;
@@ -35,6 +36,7 @@ public class User {
     @UniqueEmail
     String email;
 
+    @Lob
     String image;
 
     @JsonIgnore

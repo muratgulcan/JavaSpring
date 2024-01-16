@@ -11,6 +11,7 @@ export function Navbar() {
   const onClickLogout = () => {
     dispatch({ type: "logout-success" });
   };
+  console.log(authState);
   return (
     <>
       <nav className="navbar navbar-expand bg-body-tertiary shadow-sm">
@@ -37,7 +38,7 @@ export function Navbar() {
               <>
                 <li className="navbar nav-item">
                   <Link className="nav-link" to={`/user/${authState.id}`}>
-                    <ProfileImage width={30} />{" "}
+                    <ProfileImage width={30} image={authState.image} />{" "}
                     <span className="ms-2">{authState.username}</span>
                   </Link>
                 </li>

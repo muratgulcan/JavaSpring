@@ -41,7 +41,6 @@ export const UserEditForm = ({ setEditMode, setTempImage }) => {
       const data = fileReader.result;
       setNewImage(data);
       setTempImage(data);
-      console.log(data);
     };
     fileReader.readAsDataURL(file);
   };
@@ -58,7 +57,7 @@ export const UserEditForm = ({ setEditMode, setTempImage }) => {
       setEditMode(false);
       dispatch({
         type: "user-update-success",
-        data: { username: newUsername },
+        data: { username: newUsername, image: newImage },
       });
     } catch (error) {
       if (error.response?.data) {
