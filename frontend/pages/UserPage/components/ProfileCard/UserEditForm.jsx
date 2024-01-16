@@ -23,7 +23,12 @@ export const UserEditForm = ({ setEditMode, setTempImage }) => {
 
   const onChangeUsername = (event) => {
     setUsername(event.target.value);
-    setErrors({});
+    setErrors(function (lastErrors) {
+      return {
+        ...lastErrors,
+        username: undefined,
+      };
+    });
   };
 
   const onClickCancel = () => {
@@ -34,6 +39,12 @@ export const UserEditForm = ({ setEditMode, setTempImage }) => {
   };
 
   const onSelectImage = (event) => {
+    setErrors(function (lastErrors) {
+      return {
+        ...lastErrors,
+        image: undefined,
+      };
+    });
     if (event.target.files.length < 1) return;
     const file = event.target.files[0];
     const fileReader = new FileReader();
@@ -82,7 +93,12 @@ export const UserEditForm = ({ setEditMode, setTempImage }) => {
         onChange={onChangeUsername}
         error={errors.username}
       />
-      <Input label="Profile Image" type="file" onChange={onSelectImage} />
+      <Input
+        label="Profile Image"
+        type="file"
+        onChange={onSelectImage}
+        error={errors.image}
+      />
       {generalError && <Alert styleType="danger">{generalError}</Alert>}
 
       <Button apiProgress={apiProgress} onClick={onClickSave}>
