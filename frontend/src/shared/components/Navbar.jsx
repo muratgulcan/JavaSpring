@@ -11,7 +11,6 @@ export function Navbar() {
   const onClickLogout = () => {
     dispatch({ type: "logout-success" });
   };
-  console.log(authState);
   return (
     <>
       <nav className="navbar navbar-expand bg-body-tertiary shadow-sm">

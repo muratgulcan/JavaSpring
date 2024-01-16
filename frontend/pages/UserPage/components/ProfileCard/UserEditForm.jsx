@@ -50,14 +50,14 @@ export const UserEditForm = ({ setEditMode, setTempImage }) => {
     setErrors({});
     setGeneralError();
     try {
-      await updateUser(authState.id, {
+      const { data } = await updateUser(authState.id, {
         username: newUsername,
         image: newImage,
       });
       setEditMode(false);
       dispatch({
         type: "user-update-success",
-        data: { username: newUsername, image: newImage },
+        data: { username: data.username, image: data.image },
       });
     } catch (error) {
       if (error.response?.data) {

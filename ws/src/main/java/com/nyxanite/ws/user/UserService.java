@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.nyxanite.ws.configuration.CurrentUser;
 import com.nyxanite.ws.email.EmailService;
+import com.nyxanite.ws.file.FileService;
 import com.nyxanite.ws.user.dto.UserUpdate;
 import com.nyxanite.ws.user.exception.ActivationNotificationException;
 import com.nyxanite.ws.user.exception.InvalidTokenException;
@@ -29,6 +30,9 @@ public class UserService {
 
     @Autowired
     EmailService emailService;
+
+    @Autowired
+    FileService fileService;
 
     @Transactional(rollbackOn = MailException.class)
     public void save(User user) {
@@ -73,7 +77,10 @@ public class UserService {
     public User updateUser(long id, UserUpdate userUpdate) {
         User inDB = getUser(id);
         inDB.setUsername(userUpdate.username());
-        inDB.setImage(userUpdate.image());
+        if (userUpdate.image() != null) {
+            String fileName = fileService.saveBase64StringAsFile(userUpdate.image());
+            inDB.setImage(fileName);
+        }
         return userRepository.save(inDB);
     }
 
