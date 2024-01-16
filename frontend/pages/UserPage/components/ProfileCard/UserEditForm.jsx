@@ -41,6 +41,7 @@ export const UserEditForm = ({ setEditMode, setTempImage }) => {
       const data = fileReader.result;
       setNewImage(data);
       setTempImage(data);
+      console.log(data);
     };
     fileReader.readAsDataURL(file);
   };
@@ -52,7 +53,7 @@ export const UserEditForm = ({ setEditMode, setTempImage }) => {
     try {
       await updateUser(authState.id, {
         username: newUsername,
-        // image: newImage,
+        image: newImage,
       });
       setEditMode(false);
       dispatch({
