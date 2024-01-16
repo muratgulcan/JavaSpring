@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import com.nyxanite.ws.auth.dto.Credentials;
 import com.nyxanite.ws.user.User;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -26,10 +29,29 @@ public class JwtTokenService implements TokenService {
 
     @Override
     public User verifyToken(String authorizationHeader) {
-        if (authorizationHeader == null)
+        System.out.println("------------------------------TESTSETSETSETS");
+        try {
+
+            if (authorizationHeader == null)
+                return null;
+            var token = authorizationHeader.split("Bearer ")[1];
+            JwtParser parser = Jwts.parser().verifyWith(key).build();
+            System.out.println("--------------------------------" + parser);
+            try {
+                Jws<Claims> claims = parser.parseSignedClaims(token);
+                long userId = Long.valueOf(claims.getPayload().getSubject());
+                User user = new User();
+                user.setId(userId);
+                return user;
+            } catch (JwtException e) {
+                e.printStackTrace();
+            }
             return null;
-        var token = authorizationHeader.split("Bearer ")[1];
-        JwtParser parser = Jwts.parser().setSigningKey(key).build();
+        } catch (Exception e) {
+            System.out.println("------------------------------TESTSETSETSETS");
+
+        }
+        return null;
     }
 
 }
